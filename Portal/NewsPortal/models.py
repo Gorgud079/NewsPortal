@@ -1,20 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .example import POSITIONS, news, n
-# news = "NS"
-# article = "AE"
-# n = 0
-#
-# POSITIONS = [
-#     (news, "Новости"),
-#     (article, "Статья")
-# ]
+from .example import POSITIONS, news
 
 
 class Author(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
     rating = models.IntegerField(default=0)
-
 
     def update_rating(self):
         self.user_rate = 0
@@ -52,7 +43,6 @@ class Post(models.Model):
         self.post_rating -= amount
         self.save()
 
-
     def preview(self):
         self.content = self.content[0:125] + '...'
         self.save()
@@ -67,23 +57,13 @@ class Comment(models.Model):
     time_in = models.DateTimeField(auto_now_add=True)
     post_comment = models.ForeignKey(Post, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    text = models.TextField()
-    rating_like = models.BooleanField(default=False)
-    rating_dislike = models.BooleanField(default=False)
-    count_rating = models.IntegerField()
+    content = models.TextField()
+    comment_rating = models.IntegerField(default=0)
 
-    def like(self, value):
-        if self.rating_like:
-            rating_like = n + int(value)
-            self.save()
-            return rating_like
-        else:
-            return self.rating_like
+    def like_comment(self, amount=1):
+        self.comment_rating += amount
+        self.save()
 
-    def dislike(self, value):
-        if self.rating_dislike:
-            rating_dislike = n - int(value)
-            self.save()
-            return rating_dislike
-        else:
-            return self.rating_dislike
+    def dislike_comment(self, amount=1):
+        self.comment_rating -= amount
+        self.save()
