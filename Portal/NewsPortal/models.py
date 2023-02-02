@@ -5,16 +5,16 @@ from .example import POSITIONS, news
 
 class Author(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
-    rating = models.IntegerField(default=0)
+    user_rating = models.IntegerField(default=0)
 
     def update_rating(self):
         self.user_rate = 0
         for post in Post.objects.filter(author=self.person):
-            self.user_rate += post.post_rate * 3
+            self.user_rate += post.post_rating * 3
             for comment in Comment.objects.filter(posts=post):
-                self.user_rate += comment.comment_rate
+                self.user_rate += comment.comment_rating
         for comment in Comment.objects.filter(users=self.person):
-            self.user_rate += comment.comment_rate
+            self.user_rate += comment.comment_rating
         self.save()
 
     def __str__(self):
