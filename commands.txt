@@ -10,3 +10,10 @@ post1.dislike_post(1)
 comment1 = Comment.objects.get(pk=1)
 comment1.like_comment(1)
 comment1.dislike_comment(1)
+
+top = Author.objects.order_by('user_rating').values('person', 'user_rating')
+top[0]
+post1 = Post.objects.filter(pk=1)
+post1.values('time_in', 'position', 'headline', 'content', 'post_rating', 'author', 'categories')
+comments = Comment.objects.all()
+comments.values('time_in', 'author', 'content', 'comment_rating')
