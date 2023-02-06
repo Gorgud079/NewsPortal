@@ -2,14 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from .example import POSITIONS, news
 
-news = "NS"
-article = "AE"
-n = 0
 
-POSITIONS = [
-    (news, "Новости"),
-    (article, "Статья")
-]
 class Author(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
     user_rating = models.IntegerField(default=0)
