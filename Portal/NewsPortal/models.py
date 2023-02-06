@@ -2,19 +2,26 @@ from django.db import models
 from django.contrib.auth.models import User
 from .example import POSITIONS, news
 
+news = "NS"
+article = "AE"
+n = 0
 
+POSITIONS = [
+    (news, "Новости"),
+    (article, "Статья")
+]
 class Author(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE)
     user_rating = models.IntegerField(default=0)
 
     def update_rating(self):
-        self.user_rate = 0
-        for post in Post.objects.filter(author=self.person):
-            self.user_rate += post.post_rating * 3
-            for comment in Comment.objects.filter(posts=post):
-                self.user_rate += comment.comment_rating
-        for comment in Comment.objects.filter(users=self.person):
-            self.user_rate += comment.comment_rating
+        self.user_rating = 0
+        for post in Post.objects.filter(author=self):
+            self.user_rating += post.post_rating * 3
+            for comment in Comment.objects.filter(post_comment=post):
+                self.user_rating += comment.comment_rating
+        for comment in Comment.objects.filter(author=self.person):
+            self.user_rating += comment.comment_rating
         self.save()
 
     def __str__(self):
