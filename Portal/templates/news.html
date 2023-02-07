@@ -5,6 +5,32 @@ News
 {% endblock title %}
 
 {% block content %}
-<h1> Все новости </h1>
-{{ news }}
+    <h1> Все новости </h1>
+    <hr>
+    {% if news %}
+        <table>
+            <tr>
+                <td>Время </td>
+                <td>Заголовок </td>
+                <td>Содержимое </td>
+                <td>Рейтинг </td>
+                <td>Автор </td>
+                <td>Формат </td>
+                <td>Open </td>
+            </tr>
+            {% for post in news %}
+            <tr>
+                <td>{{ post.time_in }}</td>
+                <td>{{ post.headline | truncatechars:16 }}</td>
+                <td>{{ post.content | truncatechars:20 }}</td>
+                <td>{{ post.post_rating }}</td>
+                <td>{{ post.author }}</td>
+                <td>{{ post.position }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+<!--        {{ news }}-->
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
 {% endblock content %}
