@@ -8,10 +8,7 @@ def censor(value):
         value = list(map(str, value.split()))
         content = []
         for word in value:
-            print(word)
             if word.startswith(PUN) and word.endswith(PUN):
-                print(word.startswith(PUN))
-                print(word.endswith(PUN))
                 if (word.lower()[1:-1]) in SPISOK:
                     le = len(word) - 4
                     word = f"{word[0]}{word[1]}{'*' * le}{word[-2]}{word[-1]}"
@@ -19,9 +16,9 @@ def censor(value):
                 else:
                     content.append(word)
             elif word.startswith(PUN):
-                if (word.lower()[1:-1]) in SPISOK:
+                if (word.lower()[1:]) in SPISOK:
                     le = len(word) - 3
-                    word = f"{word[1]}{'*' * le}{word[-1]}"
+                    word = f"{word[0]}{word[1]}{'*' * le}{word[-1]}"
                     content.append(word)
                 else:
                     content.append(word)
