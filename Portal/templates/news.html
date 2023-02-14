@@ -1,11 +1,18 @@
 {% extends 'flatpages/default.html' %}
-
+{% load custom_filters %}
 {% block title %}
 News
 {% endblock title %}
 
 {% block content %}
     <h1> Все новости </h1>
+    <hr>
+    <form action="" method="get">
+        {{ filterset.form.as_p }}
+        <input type="submit" value="Найти"/>
+    </form>
+<!--    <label for="bday">Введите дату вашего рождения:</label>-->
+<!--    <input type="date" id="bday" name="bday" min="date">-->
     <hr>
     {% if news %}
         <table>
@@ -20,7 +27,7 @@ News
             </tr>
             {% for post in news %}
             <tr>
-                <td>{{ post.time_in }}</td>
+                <td>{{ post.date }}</td>
                 <td>{{ post.headline | truncatechars:16 }}</td>
                 <td>{{ post.content | truncatechars:20 }}</td>
                 <td>{{ post.post_rating }}</td>
@@ -33,4 +40,21 @@ News
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
+    {% if page_obj.has_previous %}
+        <a href="?{% url_replace page=1%}">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?{% url_replace page=page_obj.previous_page_number%}">{{page_obj.previous_page_number}}</a>
+        {% endif %}
+    {% endif %}
+    {{ page_obj.number }}
+    {% if page_obj.has_next %}
+        <a href="?{% url_replace page=page_obj.next_page_number%}">{{page_obj.next_page_number}}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?{% url_replace page=page_obj.paginator.num_pages%}">{{page_obj.paginator.num_pages}}</a>
+        {% endif %}
+    {% endif %}
+
+
 {% endblock content %}

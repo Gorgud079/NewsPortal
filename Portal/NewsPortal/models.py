@@ -26,7 +26,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    time_in = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
     headline = models.CharField(max_length=255)
     content = models.TextField()
     post_rating = models.IntegerField(default=0)
@@ -34,6 +34,9 @@ class Post(models.Model):
     position = models.CharField(max_length=2, choices=POSITIONS, default=news)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category, through="PostCategory")
+
+    def __str__(self):
+        return str(self.date)
 
     def like_post(self, amount=1):
         self.post_rating += amount
