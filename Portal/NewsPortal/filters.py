@@ -4,7 +4,7 @@ from django import forms
 
 
 class PostFilter(FilterSet):
-    # date = DateFilter(widget=forms.DateInput(attrs={'type': 'date'}), lookup_expr='gt')
+    date = DateFilter(widget=forms.DateInput(attrs={'type': 'date'}), lookup_expr='gt')
     class Meta:
         model = Post
         fields = ['headline', 'position', 'date']

@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='data',
-            field=models.DateField(default=models.DateTimeField(auto_now_add=True)),
+            field=models.DateTimeField(auto_now_add=True),
         ),
     ]

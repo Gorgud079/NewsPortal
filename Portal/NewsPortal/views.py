@@ -6,7 +6,7 @@ from datetime import datetime
 # Create your views here.
 class PostsList(ListView):
     model = Post
-    ordering = '-time_in'
+    ordering = '-date'
     template_name = 'news.html'
     context_object_name = 'news'
     paginate_by = 2
