@@ -33,6 +33,9 @@ News
                 <td>{{ post.post_rating }}</td>
                 <td>{{ post.author }}</td>
                 <td>{{ post.position }}</td>
+                <td>
+                    <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-secondary">OPEN</a>
+                </td>
             </tr>
             {% endfor %}
         </table>

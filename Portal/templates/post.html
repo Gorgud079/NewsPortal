@@ -12,4 +12,10 @@
 <p>{{ post.content|censor }} </p>
 <p>Рейтинг - {{ post.post_rating }} </p>
 <p>Автор - {{ post.author }} </p>
+<p>
+    <div class="col text-center">
+    <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-secondary">CHANGE</a>
+    <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-warning">DELETE</a>
+</div>
+</p>
 {% endblock content %}
