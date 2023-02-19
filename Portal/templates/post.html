@@ -18,4 +18,5 @@
     <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-warning">DELETE</a>
 </div>
 </p>
+<p>Комментарии {{ comment.content }}</p>
 {% endblock content %}
