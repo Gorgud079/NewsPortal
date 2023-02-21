@@ -1,6 +1,12 @@
 {% extends 'flatpages/default.html' %}
 {% block content %}
-<h1>Добавление поста</h1>
+<h1>
+    {%if "news" in request.path %}
+    Добавление поста
+    {% else %}
+    Добавление статьи
+    {% endif %}
+</h1>
 <hr>
 <form action="" method="post">
     {% csrf_token%}
