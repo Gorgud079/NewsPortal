@@ -4,7 +4,7 @@ from .models import Post, Comment
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
-from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from datetime import datetime
 # Create your views here.
@@ -61,10 +61,12 @@ class PostCreate(CreateView):
         return super().form_valid(form), self.template_name
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(LoginRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+
+
 
 class PostDelete(DeleteView):
     model = Post
