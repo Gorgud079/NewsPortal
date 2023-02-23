@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6(qn-ii^r$h1rny$gbxfo_8&of=^xiz@(0&r57&k4%9wyoscnm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -41,8 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django_filters',
+    'sign',
+    'protect',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
 SITE_ID = 1
 
 MIDDLEWARE = [
@@ -73,10 +82,18 @@ TEMPLATES = [
         },
     },
 ]
-
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 STATICFILES_DIRS = [BASE_DIR / 'static']
 WSGI_APPLICATION = 'Portal.wsgi.application'
 
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
