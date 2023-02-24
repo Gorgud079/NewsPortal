@@ -77,3 +77,4 @@ class CommentView(DetailView):
     model = Comment
     template_name = 'post.html'
     context_object_name = 'comment'
+

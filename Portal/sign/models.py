@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
+
 class BaseRegisterForm(UserCreationForm):
     email = forms.EmailField(label='Email')
     first_name = forms.CharField(label='Имя')

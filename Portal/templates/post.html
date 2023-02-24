@@ -17,6 +17,7 @@
     <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-secondary">CHANGE</a>
     <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-warning">DELETE</a>
 </div>
+<!--<p>Комментарии - {{ comment.content }}</p>-->
 </p>
-<p>Комментарии {{ comment.content }}</p>
+<p>Комментарии - {{ Comment.post_comment }}</p>
 {% endblock content %}

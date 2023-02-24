@@ -39,6 +39,7 @@ class Post(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     categories = models.ManyToManyField(Category, through="PostCategory")
 
+
     def __str__(self):
         return f'{self.headline.title()}: {self.content[:25]}'
 
@@ -80,3 +81,6 @@ class Comment(models.Model):
     def dislike_comment(self, amount=1):
         self.comment_rating -= amount
         self.save()
+
+    def __str__(self):
+        return self.content

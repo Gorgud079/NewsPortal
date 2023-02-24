@@ -39,6 +39,7 @@
         <p>&nbsp;</p>
         <p>&nbsp;</p>
     </body>
-    <h3>{{time_now|date:'d-M-Y'}}</h3>
+
+    <h3>{% now "d-m-Y H:i" %}</h3>
     <h1>{% block content %} {{ news }} {% endblock content %}</h1>
 </html>
