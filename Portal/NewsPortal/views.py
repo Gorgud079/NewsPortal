@@ -4,7 +4,7 @@ from .models import Post, Comment
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
 from datetime import datetime
 # Create your views here.
@@ -41,11 +41,12 @@ class PostsDetail(DetailView):
         return self.filterset.qs
 
 
-class PostCreate(CreateView):
+class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news_create.html'
-    permission_required = ('news.add_post',)
+    permission_required = ('NewsPortal.add_post',)
+
 
 
     def form_valid(self, form):
@@ -61,17 +62,19 @@ class PostCreate(CreateView):
         return super().form_valid(form), self.template_name
 
 
-class PostUpdate(LoginRequiredMixin, UpdateView):
+class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_edit.html'
+    permission_required = ('NewsPortal.change_post',)
 
 
-
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
+    permission_required = ('NewsPortal.delete_post',)
+
 
 class CommentView(DetailView):
     model = Comment

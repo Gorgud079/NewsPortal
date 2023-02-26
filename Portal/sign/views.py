@@ -1,7 +1,8 @@
-from django.shortcuts import render
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User, Group
 from django.views.generic.edit import CreateView
 from .models import BaseRegisterForm
+from django.contrib.auth.decorators import login_required
 
 
 class BaseRegisterView(CreateView):
@@ -9,3 +10,13 @@ class BaseRegisterView(CreateView):
     form_class = BaseRegisterForm
     success_url = '/'
 # Create your views here.
+@login_required
+def upgrade_me(request):
+    user = request.user
+    authors_group = Group.objects.get(name='authors')
+    common_group = Group.objects.get(name='common')
+    if not request.user.groups.filter(name='authors').exists():
+        authors_group.user_set.add(user)
+        if not request.user.groups.filter(name='common').exists():
+            common_group.user_set.add(user)
+    return redirect('/')

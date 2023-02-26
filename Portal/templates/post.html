@@ -19,5 +19,5 @@
 </div>
 <!--<p>Комментарии - {{ comment.content }}</p>-->
 </p>
-<p>Комментарии - {{ Comment.post_comment }}</p>
+<p>Комментарии <br> {{ post.comment_set.all.first }}<br> Level: {{ post.comment_set.all.get.comment_rating }}</p>
 {% endblock content %}

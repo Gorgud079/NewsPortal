@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 SITE_ID = 1
+ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

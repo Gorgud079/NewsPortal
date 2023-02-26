@@ -2,6 +2,10 @@
 
 {% block content %}
 <h2>Страница авторизованного пользователя -  {{ request.user.username }}</h2>
-<div>Информация пользователя:{{ comment.content }}</div>
-<button><a href="sign/logout/">Выйти</a></button>
+<div>Информация пользователя:{{ post.comment_set.all.first }}</div>
+<p>{% if is_not_authors %}
+<button><a href="sign/upgrade/">Хочу стать автором</a></button><br>
+    {% endif%}
+    <button><a href="sign/logout/">Выйти</a></button>
+</p>
 {% endblock %}
