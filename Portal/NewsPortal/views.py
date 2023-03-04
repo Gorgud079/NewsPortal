@@ -46,12 +46,18 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     model = Post
     template_name = 'news_create.html'
     permission_required = ('NewsPortal.add_post',)
+    # def create(self):
+    #     if 'news' in self.request.path.split('/'):
+    #         template_name = 'news_create.html'
+    #     elif 'article' in self.request.path.split('/'):
+    #         template_name = 'art_create.html'
+    #     return template_name
 
 
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        if 'news' in self.request.path.split('/'):
+        if 'news' in self.request.path:
             post.position = "NS"
             self.template_name = 'news_create.html'
             self.success_url = reverse_lazy('news_create')
@@ -59,7 +65,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
             post.position = "AE"
             self.template_name = 'art_create.html'
             self.success_url = reverse_lazy('art_create')
-        return super().form_valid(form), self.template_name
+        return super().form_valid(form)
 
 
 class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):

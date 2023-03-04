@@ -11,8 +11,6 @@ News
         {{ filterset.form.as_p }}
         <input type="submit" value="Найти"/>
     </form>
-<!--    <label for="bday">Введите дату вашего рождения:</label>-->
-<!--    <input type="date" id="bday" name="bday" min="date">-->
     <hr>
     {% if news %}
         <table>
@@ -35,6 +33,10 @@ News
                 <td>{{ post.position }}</td>
                 <td>
                     <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-secondary">OPEN</a>
+                    {% if is_authors %}
+                    <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-secondary">CHANGE</a>
+                    <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-warning">DELETE</a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
