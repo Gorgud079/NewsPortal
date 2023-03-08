@@ -19,10 +19,9 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('pages/', include('django.contrib.flatpages.urls')),
-    path('news/', include('NewsPortal.urls')),
-    path('sign/', include('sign.urls')),
-    path('', include('protect.urls')),
+    path('', include('NewsPortal.urls')),
+    path('account/profile/sign/', include('sign.urls')),
+    path('account/profile/', include('protect.urls')),
     path('accounts/', include('allauth.urls')),
-    path('article/', include('NewsPortal.urls')),
     path('article/', include('sign.urls')),
 ]

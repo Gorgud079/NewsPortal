@@ -86,3 +86,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.author}:{self.content.title()}"
+
+class Subscribe(models.Model):
+    category_current = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user_current = models.ForeignKey(User, on_delete=models.CASCADE)

@@ -1,13 +1,13 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView
 from datetime import datetime
-# Create your views here.
+
 class PostsList(ListView):
     model = Post
     ordering = '-date'
@@ -26,6 +26,15 @@ class PostsList(ListView):
         return self.filterset.qs
 
 
+class CategoryList(ListView):
+    model = Category
+    template_name = "category.html"
+    context_object_name = "category"
+    paginate_by = 10
+
+class SubscribeList(ListView):
+    model = Post
+    template_name = ''
 class PostsDetail(DetailView):
     model = Post
     template_name = 'post.html'
@@ -46,14 +55,6 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     model = Post
     template_name = 'news_create.html'
     permission_required = ('NewsPortal.add_post',)
-    # def create(self):
-    #     if 'news' in self.request.path.split('/'):
-    #         template_name = 'news_create.html'
-    #     elif 'article' in self.request.path.split('/'):
-    #         template_name = 'art_create.html'
-    #     return template_name
-
-
 
     def form_valid(self, form):
         post = form.save(commit=False)
