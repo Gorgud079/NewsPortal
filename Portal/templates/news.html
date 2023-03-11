@@ -33,15 +33,14 @@ News
                 <td>{{ post.position }}</td>
                 <td>
                     <a href="{% url 'post_detail' pk=post.pk %}" class="btn btn-secondary">OPEN</a>
-                    {% if is_authors %}
-                    <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-secondary">CHANGE</a>
-                    <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-warning">DELETE</a>
+                    {% if request.user|lower == post.author|lower or request.user|lower == "admin" %}
+                    <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-warning">CHANGE</a>
+                    <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-danger">DELETE</a>
                     {% endif %}
                 </td>
             </tr>
             {% endfor %}
         </table>
-<!--        {{ news }}-->
     {% else %}
         <h2>Новостей нет!</h2>
     {% endif %}
@@ -60,6 +59,4 @@ News
             <a href="?{% url_replace page=page_obj.paginator.num_pages%}">{{page_obj.paginator.num_pages}}</a>
         {% endif %}
     {% endif %}
-
-
 {% endblock content %}

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from django.views.generic.edit import CreateView
 from .models import BaseRegisterForm
+from NewsPortal.models import Author
 # from ..NewsPortal.models import Category
 from django.contrib.auth.decorators import login_required
 
@@ -12,7 +13,6 @@ class BaseRegisterView(CreateView):
     template_name = 'signup.html'
     success_url = '/'
 
-# Create your views here.
 @login_required
 def upgrade_me(request):
     user = request.user
@@ -20,6 +20,7 @@ def upgrade_me(request):
     common_group = Group.objects.get(name='common')
     if not request.user.groups.filter(name='authors').exists():
         authors_group.user_set.add(user)
+        Author.objects.create(user_id=user.id, rating=0)
         if not request.user.groups.filter(name='common').exists():
             common_group.user_set.add(user)
     return redirect('/')

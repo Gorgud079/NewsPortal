@@ -8,16 +8,27 @@
 
 {% block content %}
 <h4>{{ post.headline }} </h4>
-<p style="color:green"> Категория: {{post.categories.all.first }}. </p>
+<p style="color:green"> Категория: {{ post.categories.all.first }}. </p>
 <p>Дата создания - {{ post.date }} </p>
 <p>{{ post.content|censor }} </p>
 <p>Рейтинг - {{ post.post_rating }} </p>
-<p>Автор - {{ post.author }} </p>
+<p>Автор - {{ post.author }}  </p>
 <p>
     <div class="col text-center">
+    {% if "Финансы" == post.categories.all.first|title %}
+        <a href="categories/finance/" class="btn btn-secondary">Список новостей: {{ post.categories.all.first }}</a>
+    {% elif "Спорт" == post.categories.all.first|title %}
+    <a href="categories/sport/" class="btn btn-secondary">Список новостей: {{ post.categories.all.first }}</a>
+    {% elif "Образование" == post.categories.all.first|title %}
+    <a href="categories/education/" class="btn btn-secondary">Список новостей: {{ post.categories.all.first }}</a>
+    {% elif "Политика" == post.categories.all.first|title %}
+    <a href="categories/politics/" class="btn btn-secondary">Список новостей: {{ post.categories.all.first }}</a>
+    {% endif %}
     <a href="subscribe/" class="btn btn-primary">Подписаться на {{ post.categories.all.first }}</a>
-    <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-secondary">CHANGE</a>
-    <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-warning">DELETE</a>
+    {% if request.user|lower == post.author|lower or request.user|lower == "admin" %}
+    <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-warning">CHANGE</a>
+    <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-danger">DELETE</a>
+    {% endif %}
 </div>
 <!--<p>Комментарии - {{ comment.content }}</p>-->
 </p>
