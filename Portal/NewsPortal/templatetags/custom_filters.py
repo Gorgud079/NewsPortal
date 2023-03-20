@@ -1,5 +1,7 @@
 from django import template
 from ..example import SPISOK, PUN
+from ..models import Post, User, PostCategory
+from django.contrib.auth.models import User
 
 
 register = template.Library()
@@ -44,3 +46,14 @@ def url_replace(context, **kwargs):
     for k, v in kwargs.items():
         d[k] = v
     return d.urlencode()
+
+@register.filter()
+def scribe(value):
+    cat_id = PostCategory.value('category_id')
+    user_id = cat_id
+    print(cat_id)
+    for list in value:
+        if 'category_current_id' in list and list['category_current_id'] == cat_id:
+            print('ok')
+            if 'user_current_id' in list and list['user_current_id'] == user_id:
+                return True

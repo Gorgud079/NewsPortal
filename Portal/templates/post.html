@@ -13,6 +13,11 @@
 <p>{{ post.content|censor }} </p>
 <p>Рейтинг - {{ post.post_rating }} </p>
 <p>Автор - {{ post.author }}  </p>
+<p style="border: 3px solid blue; font-size:20px; color:green; text-align:right; background: yellow;">{% for list in subscribe.all.values %}
+    {% if list.category_current_id == post.postcategory_set.get.category_id and list.user_current_id == request.user.id %}
+    Вы подписаны на {{ post.postcategory_set.get.category }}
+    {% endif %}
+    {% endfor %}</p>
 <p>
     <div class="col text-center">
     {% if "Финансы" == post.categories.all.first|title %}
@@ -24,7 +29,10 @@
     {% elif "Политика" == post.categories.all.first|title %}
     <a href="categories/politics/" class="btn btn-secondary">Список новостей: {{ post.categories.all.first }}</a>
     {% endif %}
+
+    {{ category.user_set.username }}
     <a href="subscribe/" class="btn btn-primary">Подписаться на {{ post.categories.all.first }}</a>
+
     {% if request.user|lower == post.author|lower or request.user|lower == "admin" %}
     <a href="{% url 'post_update' pk=post.pk %}" class="btn btn-warning">CHANGE</a>
     <a href="{% url 'post_delete' pk=post.pk %}" class="btn btn-danger">DELETE</a>

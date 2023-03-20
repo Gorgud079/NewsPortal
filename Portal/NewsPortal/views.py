@@ -6,6 +6,7 @@ from .forms import PostForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
+from django.views import View
 from django.views.generic import TemplateView
 from datetime import datetime
 
@@ -40,6 +41,7 @@ class SubscribeList(ListView):
     template_name = 'politicaNews.html'
     context_object_name = 'sub'
     paginate_by = 20
+    
 
 
 class PostsDetail(DetailView):
@@ -50,6 +52,7 @@ class PostsDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filterset'] = self.filterset
+        context['subscribe'] = Subscribe.objects.all()
         return context
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -95,27 +98,28 @@ class CommentView(DetailView):
     template_name = 'post.html'
     context_object_name = 'comment'
 
+
 @login_required
 def subscribe_category(request):
     user = request.user
     path = request.META["HTTP_REFERER"]
-    id = path.split("/")[-1]
-    post = Post.objects.filter(pk=id)
+    pk_id = path.split("/")[-1]
+    post = Post.objects.filter(pk=pk_id)
     if 1 == int(post.values('categories')[0]['categories']):
         if not Subscribe.objects.filter(category_current_id=1, user_current_id=user.id):
             Subscribe.objects.create(category_current_id=1, user_current_id=user.id)
-        return redirect('http://127.0.0.1:8000/categories/sport/')
+        return redirect(request.META["HTTP_REFERER"])
     elif 2 == int(post.values('categories')[0]['categories']):
         if not Subscribe.objects.filter(category_current_id=2, user_current_id=user.id):
             Subscribe.objects.create(category_current_id=2, user_current_id=user.id)
-        return redirect('http://127.0.0.1:8000/categories/politics/')
+        return redirect(request.META["HTTP_REFERER"])
     elif 3 == int(post.values('categories')[0]['categories']):
         if not Subscribe.objects.filter(category_current_id=3, user_current_id=user.id):
             Subscribe.objects.create(category_current_id=3, user_current_id=user.id)
-        return redirect('http://127.0.0.1:8000/categories/education/')
+        return redirect(request.META["HTTP_REFERER"])
     elif 4 == int(post.values('categories')[0]['categories']):
         if not Subscribe.objects.filter(category_current_id=4, user_current_id=user.id):
             Subscribe.objects.create(category_current_id=4, user_current_id=user.id)
-        return redirect('http://127.0.0.1:8000/categories/finance/')
+        return redirect(request.META["HTTP_REFERER"])
     return redirect('http://127.0.0.1:8000/categories/')
 
