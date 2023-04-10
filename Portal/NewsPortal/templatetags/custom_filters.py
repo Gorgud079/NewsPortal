@@ -1,6 +1,6 @@
 from django import template
 from ..example import SPISOK, PUN
-from ..models import Post, User, PostCategory
+from ..models import Post, User, PostCategory, Subscribe, Category
 from django.contrib.auth.models import User
 
 
@@ -57,3 +57,10 @@ def scribe(value):
             print('ok')
             if 'user_current_id' in list and list['user_current_id'] == user_id:
                 return True
+
+@register.inclusion_tag('news_portal/scribe_list.html')
+def scribe_or_not(request, cat_id):
+    scr = Subscribe.objects.filter(user_current_id=request.user.id, category_current_id=cat_id).exists
+    cat = Category.objects.get(pk=cat_id)
+    return {'scr': scr, 'cat': cat}
+
